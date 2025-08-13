@@ -1,6 +1,8 @@
 spring:
   application:
     name: Gov Connect Server
+  profiles:
+    active: dev
   datasource:
     url: ${DB_URL}?createDatabaseIfNotExist=true
     username: ${DB_USERNAME}
