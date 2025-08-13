@@ -1,6 +1,7 @@
 package com.novaix.govconnect_server.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.novaix.govconnect_server.enums.Gender;
 import com.novaix.govconnect_server.enums.Role;
@@ -29,6 +30,9 @@ public class Users {
 
     @JsonProperty(index = 5)
     private String email;
+
+    @JsonIgnore
+    private String password;
 
     @JsonProperty(index = 6)
     private String address;
