@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to GOV Connect!</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background: #ffffff;
+            max-width: 600px;
+            width: 90%;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15),
+                        0 4px 10px rgba(0, 0, 0, 0.10);
+            transform: translateY(-5px);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2),
+                        0 6px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        h1 {
+            color: #007BFF;
+            font-size: 1.8rem;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #333;
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 1rem;
+            line-height: 1.6;
+            margin: 8px 0;
+        }
+
+        strong {
+            color: #007BFF;
+        }
+
+        .footer {
+            font-size: 0.9rem;
+            color: #555;
+            margin-top: 20px;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        @media screen and (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 1.5rem;
+            }
+
+            h2 {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Welcome to GOV Connect!</h1>
+        <h2>Hello, <span th:text="${name}">User</span> 👋</h2>
+        <p>
+            Thank you for registering as a 
+            <strong th:text="${role}">Role</strong> 
+            on our platform.
+        </p>
+        <p>We’re thrilled to have you onboard! 🎉</p>
+
+        <div class="footer">
+            <p>Best regards,</p>
+            <p><strong>GOV Connect Team</strong></p>
+        </div>
+    </div>
+</body>
+</html>
