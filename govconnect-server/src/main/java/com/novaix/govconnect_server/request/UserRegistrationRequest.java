@@ -1,6 +1,8 @@
 package com.novaix.govconnect_server.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.novaix.govconnect_server.common.Address;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -30,8 +32,9 @@ public class UserRegistrationRequest {
     @Pattern(regexp = ".{8,}", message = "Password must be at least 8 characters long")
     private String password;
 
-    @NotBlank(message = "Address cannot be blank")
-    private String address;
+    @Valid
+    @NotNull(message = "Address cannot be blank")
+    private Address address;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @Past(message = "Date of Birth must be in the past")
