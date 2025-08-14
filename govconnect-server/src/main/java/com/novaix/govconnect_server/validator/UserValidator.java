@@ -26,7 +26,7 @@ public class UserValidator {
     public static boolean isValidDob(LocalDate dob) {
         try {
             LocalDate today = LocalDate.now();
-            LocalDate minDate = today.minusYears(6);
+            LocalDate minDate = today.minusYears(18);
 
             return !dob.isAfter(minDate);
         } catch (DateTimeParseException e) {
