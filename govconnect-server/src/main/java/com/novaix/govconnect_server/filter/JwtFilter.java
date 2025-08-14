@@ -80,8 +80,7 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     private boolean isPublicPath(String path) {
-        return path.startsWith("/api/v2/auth/")
-                || path.startsWith("/uploads/")
-                || path.startsWith("/api/v2/profile-files/load/");
+        return path.startsWith("/api/v2/auth/login")
+                || path.startsWith("/api/v2/auth/register/user");
     }
 }
