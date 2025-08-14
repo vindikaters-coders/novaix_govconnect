@@ -1,7 +1,6 @@
 package com.novaix.govconnect_server.request;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.novaix.govconnect_server.enums.Gender;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
