@@ -30,6 +30,7 @@ class LoginScreenState extends State<LoginScreen> {
     
     print('Login attempt: $email');
     // Add your authentication logic here
+    context.go(AppRoutes.dashboard);
   }
 
   void _handleForgotPassword() {
