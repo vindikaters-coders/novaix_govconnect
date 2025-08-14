@@ -3,6 +3,7 @@ package com.novaix.govconnect_server.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.novaix.govconnect_server.common.Address;
 import com.novaix.govconnect_server.enums.Gender;
 import com.novaix.govconnect_server.enums.Role;
 import lombok.AllArgsConstructor;
@@ -35,7 +36,7 @@ public class Users {
     private String password;
 
     @JsonProperty(index = 6)
-    private String address;
+    private Address address;
 
     @JsonProperty(index = 7)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")

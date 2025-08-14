@@ -1,6 +1,7 @@
 package com.novaix.govconnect_server.dao;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.novaix.govconnect_server.common.Address;
 import com.novaix.govconnect_server.common.BaseAuditingEntity;
 import com.novaix.govconnect_server.enums.Gender;
 import com.novaix.govconnect_server.enums.Role;
@@ -37,8 +38,8 @@ public class UsersDao extends BaseAuditingEntity {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String address;
+    @Embedded
+    private Address address;
 
     @Column(nullable = false)
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
