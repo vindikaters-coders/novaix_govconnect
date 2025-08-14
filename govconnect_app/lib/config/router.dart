@@ -1,16 +1,16 @@
-// lib/config/router.dart
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:govconnect_app/screens/forgot_password_page.dart';
 import 'package:govconnect_app/screens/otp_confirmation_page.dart';
 import 'package:govconnect_app/screens/register_page.dart';
-
 import 'package:govconnect_app/screens/welcome_page.dart';
-import '../screens/login_page.dart';
+import 'package:govconnect_app/screens/login_page.dart';
+import 'package:govconnect_app/widgets/main_navigation_wrapper.dart';
 import 'routes.dart';
 
 final GoRouter appRouter = GoRouter(
   routes: [
+    // Authentication routes (no bottom nav)
     GoRoute(
       path: AppRoutes.home,
       builder: (context, state) => const GovConnectWelcomeScreen(),
@@ -30,6 +30,42 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: AppRoutes.otpConfirmation,
       builder: (context, state) => const OTPConfirmationScreen(),
+    ),
+
+    // User routes
+    GoRoute(
+      path: '/dashboard',
+      builder: (context, state) => const MainNavigationWrapper(initialIndex: 0),
+    ),
+    GoRoute(
+      path: '/tasks',
+      builder: (context, state) => const MainNavigationWrapper(initialIndex: 1),
+    ),
+    GoRoute(
+      path: '/appointments',
+      builder: (context, state) => const MainNavigationWrapper(initialIndex: 2),
+    ),
+    GoRoute(
+      path: '/profile',
+      builder: (context, state) => const MainNavigationWrapper(initialIndex: 3),
+    ),
+
+    // Admin routes
+    GoRoute(
+      path: '/admin/dashboard',
+      builder: (context, state) => const MainNavigationWrapper(initialIndex: 0),
+    ),
+    GoRoute(
+      path: '/admin/tasks',
+      builder: (context, state) => const MainNavigationWrapper(initialIndex: 1),
+    ),
+    GoRoute(
+      path: '/admin/appointments',
+      builder: (context, state) => const MainNavigationWrapper(initialIndex: 2),
+    ),
+    GoRoute(
+      path: '/admin/profile',
+      builder: (context, state) => const MainNavigationWrapper(initialIndex: 3),
     ),
   ],
   errorBuilder: (context, state) => const Scaffold(
