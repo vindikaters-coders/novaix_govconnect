@@ -56,7 +56,7 @@ public class EmailServiceImpl implements EmailService {
             templateVariables.put("name",name);
             templateVariables.put("role", role);
 
-            sendEmail(email,"Welcome To TuitionToAll","registration-success",templateVariables);
+            sendEmail(email,"Welcome To GovConnect","registration-success",templateVariables);
         }catch (MessagingException ex){
             log.error("Error sending registration success email to {}: {}", email, ex.getMessage());
             throw new RuntimeException("Failed to send registration success email", ex);
