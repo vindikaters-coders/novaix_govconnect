@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:govconnect_app/screens/forgot_password_page.dart';
-import 'package:govconnect_app/screens/otp_confirmation_page.dart';
-import 'package:govconnect_app/screens/register_page.dart';
+import 'package:govconnect_app/screens/auth/forgot_password_page.dart';
+import 'package:govconnect_app/screens/auth/otp_confirmation_page.dart';
+import 'package:govconnect_app/screens/auth/register_page.dart';
 import 'package:govconnect_app/screens/welcome_page.dart';
-import 'package:govconnect_app/screens/login_page.dart';
+import 'package:govconnect_app/screens/auth/login_page.dart';
 import 'package:govconnect_app/widgets/main_navigation_wrapper.dart';
 import 'routes.dart';
 
