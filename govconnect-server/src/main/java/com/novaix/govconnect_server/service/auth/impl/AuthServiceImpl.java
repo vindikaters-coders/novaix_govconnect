@@ -12,6 +12,7 @@ import com.novaix.govconnect_server.request.UserLoginRequest;
 import com.novaix.govconnect_server.request.UserRegistrationRequest;
 import com.novaix.govconnect_server.response.AuthResponse;
 import com.novaix.govconnect_server.service.auth.AuthService;
+import com.novaix.govconnect_server.service.common.EmailService;
 import com.novaix.govconnect_server.validator.UserValidator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,7 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authManager;
     private final ModelMapper mapper;
     private final BCryptPasswordEncoder encoder;
+    private final EmailService emailService;
 
     @Override
     public AuthResponse verify(UserLoginRequest request) {
@@ -96,10 +98,10 @@ public class AuthServiceImpl implements AuthService {
 
             switch (role) {
                 case "user":
-                    usersDao.setRole(Role.ROLE_ADMIN);
+                    usersDao.setRole(Role.ROLE_USER);
                     break;
                 case "admin":
-                    usersDao.setRole(Role.ROLE_USER);
+                    usersDao.setRole(Role.ROLE_ADMIN);
                     break;
                 default:
                     throw new InvalidInputException("Invalid role specified.");
@@ -107,6 +109,7 @@ public class AuthServiceImpl implements AuthService {
 
             usersDao.setPassword(encoder.encode(request.getPassword()));
             UsersDao savedUser = userRepository.save(usersDao);
+            emailService.SendRegistrationSuccessEmail(savedUser.getEmail(), savedUser.getFirstname()+" "+savedUser.getLastname(),savedUser.getRole());
 
             return mapper.map(savedUser, Users.class);
         } catch (BeansException e) {
