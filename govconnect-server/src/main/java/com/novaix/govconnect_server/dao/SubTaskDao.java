@@ -24,6 +24,7 @@ public class SubTaskDao extends BaseAuditingEntity {
     private String name;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private SubTaskStatus status;
 
     @Column(nullable = false)
