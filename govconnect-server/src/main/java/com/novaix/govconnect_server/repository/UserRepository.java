@@ -1,6 +1,6 @@
 package com.novaix.govconnect_server.repository;
 
-import com.novaix.govconnect_server.dao.UsersDao;
+import com.novaix.govconnect_server.dao.users_dao.UsersDao;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
