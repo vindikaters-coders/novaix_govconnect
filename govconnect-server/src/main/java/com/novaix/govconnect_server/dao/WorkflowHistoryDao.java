@@ -19,9 +19,9 @@ public class WorkflowHistoryDao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,name = "change_description")
     private String change;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "timestamp")
     private LocalDateTime timestamp;
 }

@@ -18,13 +18,13 @@ public class TransferHistoryDao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, name = "from_user_id")
     private Long from;
 
-    @Column(nullable = false)
+    @Column(nullable = false,name = "to_user_id")
     private Long to;
 
-    @Column(nullable = false)
+    @Column(nullable = false,name = "transfer_timestamp")
     private LocalDateTime timestamp;
 
     @Column(nullable = false)
