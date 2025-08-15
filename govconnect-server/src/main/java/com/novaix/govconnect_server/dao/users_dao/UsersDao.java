@@ -1,4 +1,4 @@
-package com.novaix.govconnect_server.dao;
+package com.novaix.govconnect_server.dao.users_dao;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.novaix.govconnect_server.common.Address;
@@ -17,6 +17,7 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 public class UsersDao extends BaseAuditingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
