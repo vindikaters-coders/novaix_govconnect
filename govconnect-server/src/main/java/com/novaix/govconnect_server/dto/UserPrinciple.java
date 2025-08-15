@@ -1,6 +1,6 @@
 package com.novaix.govconnect_server.dto;
 
-import com.novaix.govconnect_server.dao.UsersDao;
+import com.novaix.govconnect_server.dao.users_dao.UsersDao;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

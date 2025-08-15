@@ -1,7 +1,7 @@
 package com.novaix.govconnect_server.seeder;
 
 import com.novaix.govconnect_server.common.Address;
-import com.novaix.govconnect_server.dao.UsersDao;
+import com.novaix.govconnect_server.dao.users_dao.UsersDao;
 import com.novaix.govconnect_server.enums.Gender;
 import com.novaix.govconnect_server.enums.Role;
 import com.novaix.govconnect_server.repository.UserRepository;

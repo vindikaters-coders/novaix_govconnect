@@ -1,6 +1,6 @@
 package com.novaix.govconnect_server.service.auth.impl;
 
-import com.novaix.govconnect_server.dao.UsersDao;
+import com.novaix.govconnect_server.dao.users_dao.UsersDao;
 import com.novaix.govconnect_server.dto.UserPrinciple;
 import com.novaix.govconnect_server.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
