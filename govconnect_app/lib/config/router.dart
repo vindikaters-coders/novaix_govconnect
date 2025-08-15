@@ -3,6 +3,10 @@ import 'package:go_router/go_router.dart';
 import 'package:govconnect_app/screens/auth/forgot_password_page.dart';
 import 'package:govconnect_app/screens/auth/otp_confirmation_page.dart';
 import 'package:govconnect_app/screens/auth/register_page.dart';
+import 'package:govconnect_app/screens/super-admin/dashboard.dart';
+import 'package:govconnect_app/screens/super-admin/manage_officers.dart';
+import 'package:govconnect_app/screens/super-admin/register_officer.dart';
+import 'package:govconnect_app/screens/super-admin/system_settings.dart';
 import 'package:govconnect_app/screens/welcome_page.dart';
 import 'package:govconnect_app/screens/auth/login_page.dart';
 import 'package:govconnect_app/widgets/main_navigation_wrapper.dart';
@@ -13,7 +17,7 @@ final GoRouter appRouter = GoRouter(
     // Authentication routes (no bottom nav)
     GoRoute(
       path: AppRoutes.home,
-      builder: (context, state) => const GovConnectWelcomeScreen(),
+      builder: (context, state) => const ManageOfficersScreen(),
     ),
     GoRoute(
       path: AppRoutes.login,
