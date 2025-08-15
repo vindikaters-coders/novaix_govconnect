@@ -17,7 +17,7 @@ final GoRouter appRouter = GoRouter(
     // Authentication routes (no bottom nav)
     GoRoute(
       path: AppRoutes.home,
-      builder: (context, state) => const ManageOfficersScreen(),
+      builder: (context, state) => const GovConnectWelcomeScreen(),
     ),
     GoRoute(
       path: AppRoutes.login,
