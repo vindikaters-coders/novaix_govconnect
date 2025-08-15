@@ -8,6 +8,7 @@ import org.hibernate.annotations.NaturalId;
 
 
 @Entity
+@Table(name = "Department")
 @Setter
 @Getter
 @AllArgsConstructor

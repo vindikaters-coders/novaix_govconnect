@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "task")
 @Setter
 @Getter
 @AllArgsConstructor
