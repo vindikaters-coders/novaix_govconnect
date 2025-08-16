@@ -12,7 +12,7 @@ public interface DepartmentRepository extends JpaRepository<DepartmentDao, Strin
     
     Optional<DepartmentDao> findByName(String name);
     
-    List<DepartmentDao> findByActiveTrue();
-    
     boolean existsByName(String name);
+    
+    List<DepartmentDao> findAllByOrderByNameAsc();
 }
