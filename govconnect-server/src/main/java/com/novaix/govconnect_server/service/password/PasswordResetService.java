@@ -38,20 +38,16 @@ public class PasswordResetService {
     public ForgotPasswordResponse forgotPassword(ForgotPasswordRequest request) {
         String email = request.getEmail().toLowerCase().trim();
         
-        // Check if user exists
         UsersDao user = userRepository.findByEmail(email);
         if (user == null) {
             throw new InvalidInputException("No account found with email: " + email);
         }
 
-        // Mark any existing tokens as used
         passwordResetTokenRepository.markAllTokensAsUsedByUser(user);
 
-        // Generate OTP
         String otp = generateOtp();
         LocalDateTime expiryTime = LocalDateTime.now().plusMinutes(5);
 
-        // Create and save password reset token
         PasswordResetTokenDao resetToken = PasswordResetTokenDao.builder()
                 .otp(otp)
                 .expiryDate(expiryTime)
@@ -61,7 +57,6 @@ public class PasswordResetService {
 
         passwordResetTokenRepository.save(resetToken);
 
-        // Send email
         emailService.sendOtpEmail(email, otp, expiryTime);
 
         return new ForgotPasswordResponse(
@@ -76,13 +71,11 @@ public class PasswordResetService {
         String otp = request.getOtp();
         String newPassword = request.getNewPassword();
 
-        // Find user
         UsersDao user = userRepository.findByEmail(email);
         if (user == null) {
             throw new InvalidInputException("No account found with email: " + email);
         }
 
-        // Find valid token
         Optional<PasswordResetTokenDao> tokenOpt = passwordResetTokenRepository
                 .findByUserAndOtpAndUsedFalse(user, otp);
 
@@ -92,17 +85,14 @@ public class PasswordResetService {
 
         PasswordResetTokenDao token = tokenOpt.get();
 
-        // Check if token is expired
         if (token.isExpired()) {
             throw new OtpExpiredException("OTP has expired. Please request a new one");
         }
 
-        // Update password
         String encodedPassword = passwordEncoder.encode(newPassword);
         user.setPassword(encodedPassword);
         userRepository.save(user);
 
-        // Mark token as used
         token.setUsed(true);
         passwordResetTokenRepository.save(token);
 
@@ -116,7 +106,6 @@ public class PasswordResetService {
         return String.format("%06d", secureRandom.nextInt(1000000));
     }
 
-    // Cleanup method to remove expired tokens (can be called by a scheduled job)
     @Transactional
     public void cleanupExpiredTokens() {
         passwordResetTokenRepository.deleteExpiredTokens(LocalDateTime.now());

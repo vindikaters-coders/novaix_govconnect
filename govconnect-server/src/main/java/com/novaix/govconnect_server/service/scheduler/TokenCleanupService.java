@@ -15,7 +15,6 @@ public class TokenCleanupService {
 
     private final PasswordResetService passwordResetService;
 
-    // Run every hour
     @Scheduled(fixedRate = 3600000)
     public void cleanupExpiredTokens() {
         try {

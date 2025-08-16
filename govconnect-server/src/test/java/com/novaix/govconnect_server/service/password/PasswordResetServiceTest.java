@@ -76,16 +76,13 @@ class PasswordResetServiceTest {
 
     @Test
     void forgotPassword_ValidEmail_ShouldSendOtpSuccessfully() {
-        // Given
         when(userRepository.findByEmail("test@example.com")).thenReturn(testUser);
         when(passwordResetTokenRepository.save(any(PasswordResetTokenDao.class)))
                 .thenReturn(new PasswordResetTokenDao());
         doNothing().when(emailService).sendOtpEmail(anyString(), anyString(), any(LocalDateTime.class));
 
-        // When
         ForgotPasswordResponse response = passwordResetService.forgotPassword(forgotPasswordRequest);
 
-        // Then
         assertNotNull(response);
         assertEquals("OTP sent successfully to your email address", response.getMessage());
         assertEquals("test@example.com", response.getEmail());
@@ -99,11 +96,9 @@ class PasswordResetServiceTest {
 
     @Test
     void forgotPassword_InvalidEmail_ShouldThrowException() {
-        // Given
         when(userRepository.findByEmail("invalid@example.com")).thenReturn(null);
         forgotPasswordRequest.setEmail("invalid@example.com");
 
-        // When & Then
         InvalidInputException exception = assertThrows(InvalidInputException.class,
                 () -> passwordResetService.forgotPassword(forgotPasswordRequest));
 
@@ -114,7 +109,6 @@ class PasswordResetServiceTest {
 
     @Test
     void resetPassword_ValidOtp_ShouldResetPasswordSuccessfully() {
-        // Given
         PasswordResetTokenDao validToken = PasswordResetTokenDao.builder()
                 .id("token-id")
                 .otp("123456")
@@ -130,10 +124,8 @@ class PasswordResetServiceTest {
         when(userRepository.save(testUser)).thenReturn(testUser);
         when(passwordResetTokenRepository.save(validToken)).thenReturn(validToken);
 
-        // When
         ResetPasswordResponse response = passwordResetService.resetPassword(resetPasswordRequest);
 
-        // Then
         assertNotNull(response);
         assertEquals("Password reset successfully", response.getMessage());
         assertEquals("test@example.com", response.getEmail());
@@ -150,12 +142,10 @@ class PasswordResetServiceTest {
 
     @Test
     void resetPassword_InvalidOtp_ShouldThrowException() {
-        // Given
         when(userRepository.findByEmail("test@example.com")).thenReturn(testUser);
         when(passwordResetTokenRepository.findByUserAndOtpAndUsedFalse(testUser, "123456"))
                 .thenReturn(Optional.empty());
 
-        // When & Then
         InvalidOtpException exception = assertThrows(InvalidOtpException.class,
                 () -> passwordResetService.resetPassword(resetPasswordRequest));
 
@@ -168,11 +158,10 @@ class PasswordResetServiceTest {
 
     @Test
     void resetPassword_ExpiredOtp_ShouldThrowException() {
-        // Given
         PasswordResetTokenDao expiredToken = PasswordResetTokenDao.builder()
                 .id("token-id")
                 .otp("123456")
-                .expiryDate(LocalDateTime.now().minusMinutes(10)) // Expired
+                .expiryDate(LocalDateTime.now().minusMinutes(10))
                 .used(false)
                 .user(testUser)
                 .build();
@@ -181,7 +170,6 @@ class PasswordResetServiceTest {
         when(passwordResetTokenRepository.findByUserAndOtpAndUsedFalse(testUser, "123456"))
                 .thenReturn(Optional.of(expiredToken));
 
-        // When & Then
         OtpExpiredException exception = assertThrows(OtpExpiredException.class,
                 () -> passwordResetService.resetPassword(resetPasswordRequest));
 
