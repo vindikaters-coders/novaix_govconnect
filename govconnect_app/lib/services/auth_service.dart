@@ -22,29 +22,31 @@ class AuthService {
   Future<Map<String, dynamic>> register(
     String nic,
     String email,
-    String password,
+    String password, String lastName, String firstName, String city, String dob, String phone,
+      String gender
   ) async {
+
+    print("data ${gender}");
     try {
       final response = await _dio.post(
         '/auth/register/user',
         data: {
-          "firstname": "null",
-          "lastname": "null",
-          "contact": "0807654532",
+          "firstname": firstName,
+          "lastname": lastName,
+          "contact": phone,
           "email": email,
           "password": password,
           "address": {
-            "city": "null",
-            "town": "null",
-            "province": "null",
-            "streetAddress": "null"
+            "city": city,
+            "town": 'null',
+            "province": 'null',
+            "streetAddress": 'null'
           },
-          "dob": "1995-08-14",
-          "gender": "MALE",
+          "dob": dob,
+          "gender": gender,
           "nic": nic
         },
       );
-
       print("Register success: ${response.statusCode}");
       response.data['statusCode'] = response.statusCode;
       return response.data;
