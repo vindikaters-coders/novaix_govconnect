@@ -12,10 +12,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.novaix.govconnect_server.exception.custom.AlreadyExistsException;
+import com.novaix.govconnect_server.exception.custom.ForbiddenException;
 import com.novaix.govconnect_server.exception.custom.InternalServerErrorException;
 import com.novaix.govconnect_server.exception.custom.InvalidInputException;
 import com.novaix.govconnect_server.exception.custom.InvalidOtpException;
 import com.novaix.govconnect_server.exception.custom.OtpExpiredException;
+import com.novaix.govconnect_server.exception.custom.ResourceNotFoundException;
 import com.novaix.govconnect_server.exception.custom.UnauthorizedException;
 import com.novaix.govconnect_server.response.ApiResponse;
 
@@ -95,5 +97,21 @@ public class GlobalExceptionHandler {
         response.setMessage(ex.getMessage());
         response.setData(null);
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ResponseEntity<ApiResponse> handleResourceNotFound(ResourceNotFoundException ex) {
+        ApiResponse response = new ApiResponse();
+        response.setMessage(ex.getMessage());
+        response.setData(null);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(ForbiddenException.class)
+    public ResponseEntity<ApiResponse> handleForbidden(ForbiddenException ex) {
+        ApiResponse response = new ApiResponse();
+        response.setMessage(ex.getMessage());
+        response.setData(null);
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
     }
 }
