@@ -17,13 +17,12 @@ public class Address {
     @Column(nullable = false)
     private String city;
 
-    @NotBlank(message = "Town cannot be blank")
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String town;
 
-    @NotBlank(message = "Province cannot be blank")
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String province;
 
+    @Column(nullable = true)
     private String streetAddress;
 }
