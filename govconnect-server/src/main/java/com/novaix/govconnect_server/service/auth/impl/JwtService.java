@@ -1,7 +1,7 @@
 package com.novaix.govconnect_server.service.auth.impl;
 
 import com.novaix.govconnect_server.dto.UserPrinciple;
-import com.novaix.govconnect_server.exeption.custom.InternalServerErrorException;
+import com.novaix.govconnect_server.exception.custom.InternalServerErrorException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;

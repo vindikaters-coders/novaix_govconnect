@@ -1,8 +1,5 @@
 package com.novaix.govconnect_server.config;
 
-import com.novaix.govconnect_server.filter.JwtFilter;
-import com.novaix.govconnect_server.service.auth.impl.UserDetailsServiceImpl;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,6 +15,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.novaix.govconnect_server.filter.JwtFilter;
+import com.novaix.govconnect_server.service.auth.impl.UserDetailsServiceImpl;
+
+import lombok.RequiredArgsConstructor;
 
 @EnableWebSecurity
 @Configuration
@@ -39,7 +41,7 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/api/auth/login/**","/api/auth/register/user/**").permitAll()
+                        .requestMatchers("/api/auth/login/**","/api/auth/register/user/**","/api/auth/forgot-password/**","/api/auth/reset-password/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
