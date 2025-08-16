@@ -6,6 +6,7 @@ import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -13,6 +14,8 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +27,9 @@ public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender javaMailSender;
     private final TemplateEngine templateEngine;
+    
+    @Value("${spring.mail.username}")
+    private String fromEmail;
 
     @Override
     public void sendEmail(String to, String subject, String templateName, Map<String, Object> templateVariables) throws MessagingException {
@@ -35,7 +41,7 @@ public class EmailServiceImpl implements EmailService {
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
 
-        helper.setFrom("vinuthsriarampth@gmail.com");
+        helper.setFrom(fromEmail);
         helper.setTo(to);
         helper.setSubject(subject);
         helper.setText(htmlContent, true);
@@ -46,6 +52,23 @@ public class EmailServiceImpl implements EmailService {
             log.error("Failed to send email",ex);
         }
 
+    }
+
+    @Override
+    public void sendOtpEmail(String toEmail, String otp, LocalDateTime expiryTime) {
+        try {
+            Map<String, Object> templateVariables = new HashMap<>();
+            templateVariables.put("otp", otp);
+            templateVariables.put("expiryTime", expiryTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
+            templateVariables.put("validMinutes", "5");
+
+            sendEmail(toEmail, "Password Reset OTP - GovConnect", "forgot-password-otp-new", templateVariables);
+            log.info("OTP email sent successfully to: {}", toEmail);
+
+        } catch (MessagingException e) {
+            log.error("Failed to send OTP email to: {}", toEmail, e);
+            throw new RuntimeException("Failed to send email", e);
+        }
     }
 
     @Override
