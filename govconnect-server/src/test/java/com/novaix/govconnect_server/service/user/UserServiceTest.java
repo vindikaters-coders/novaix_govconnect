@@ -45,7 +45,6 @@ class UserServiceTest {
 
     @BeforeEach
     void setUp() {
-        // Create test user
         testUser = new UsersDao();
         testUser.setId(1L);
         testUser.setFirstname("John");
@@ -61,7 +60,6 @@ class UserServiceTest {
         Address address = new Address("Colombo", "Mount Lavinia", "Western", "123 Main St");
         testUser.setAddress(address);
 
-        // Create update request
         updateRequest = new UserUpdateRequest();
         updateRequest.setFirstName("Jane");
         updateRequest.setLastName("Smith");
@@ -71,7 +69,6 @@ class UserServiceTest {
         Address newAddress = new Address("Kandy", "Peradeniya", "Central", "456 New St");
         updateRequest.setAddress(newAddress);
 
-        // Create update response
         updateResponse = new UserUpdateResponse();
         updateResponse.setId(1L);
         updateResponse.setFirstName("Jane");
@@ -88,15 +85,12 @@ class UserServiceTest {
 
     @Test
     void testUpdateUser_Success() {
-        // Given
         when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
         when(userRepository.save(any(UsersDao.class))).thenReturn(testUser);
         when(modelMapper.map(any(UsersDao.class), eq(UserUpdateResponse.class))).thenReturn(updateResponse);
 
-        // When
         UserUpdateResponse result = userService.updateUser(1L, updateRequest, "john.doe@example.com");
 
-        // Then
         assertNotNull(result);
         assertEquals("Jane", result.getFirstName());
         assertEquals("Smith", result.getLastName());
@@ -109,10 +103,8 @@ class UserServiceTest {
 
     @Test
     void testUpdateUser_UserNotFound() {
-        // Given
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
-        // When & Then
         assertThrows(ResourceNotFoundException.class, () -> {
             userService.updateUser(1L, updateRequest, "john.doe@example.com");
         });
@@ -123,10 +115,8 @@ class UserServiceTest {
 
     @Test
     void testUpdateUser_ForbiddenAccess() {
-        // Given
         when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
 
-        // When & Then
         assertThrows(ForbiddenException.class, () -> {
             userService.updateUser(1L, updateRequest, "different.user@example.com");
         });
@@ -137,11 +127,9 @@ class UserServiceTest {
 
     @Test
     void testUpdateUser_InvalidPhoneNumber() {
-        // Given
         updateRequest.setPhoneNumber("invalid");
         when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
 
-        // When & Then
         assertThrows(com.novaix.govconnect_server.exception.custom.InvalidInputException.class, () -> {
             userService.updateUser(1L, updateRequest, "john.doe@example.com");
         });
@@ -152,7 +140,6 @@ class UserServiceTest {
 
     @Test
     void testUpdateUser_WithDateOfBirth() {
-        // Given
         LocalDate newDob = LocalDate.of(1995, 12, 25);
         updateRequest.setDob(newDob);
         
@@ -160,10 +147,8 @@ class UserServiceTest {
         when(userRepository.save(any(UsersDao.class))).thenReturn(testUser);
         when(modelMapper.map(any(UsersDao.class), eq(UserUpdateResponse.class))).thenReturn(updateResponse);
 
-        // When
         UserUpdateResponse result = userService.updateUser(1L, updateRequest, "john.doe@example.com");
 
-        // Then
         assertNotNull(result);
         verify(userRepository).findById(1L);
         verify(userRepository).save(any(UsersDao.class));
@@ -172,12 +157,10 @@ class UserServiceTest {
 
     @Test
     void testUpdateUser_InvalidDateOfBirth_TooYoung() {
-        // Given
-        LocalDate invalidDob = LocalDate.now().minusYears(17); // Less than 18 years old
+        LocalDate invalidDob = LocalDate.now().minusYears(17);
         updateRequest.setDob(invalidDob);
         when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
 
-        // When & Then
         assertThrows(com.novaix.govconnect_server.exception.custom.InvalidInputException.class, () -> {
             userService.updateUser(1L, updateRequest, "john.doe@example.com");
         });
