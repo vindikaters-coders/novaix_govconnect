@@ -6,6 +6,8 @@ import 'package:govconnect_app/widgets/custom_button.dart';
 import 'package:govconnect_app/widgets/custom_input_field.dart';
 import 'package:govconnect_app/widgets/custom_text_button.dart';
 
+import '../../services/auth_service.dart';
+
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
 
@@ -18,6 +20,8 @@ class RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
+
+  final authService = AuthService();
   
   @override
   void dispose() {
@@ -28,7 +32,7 @@ class RegisterScreenState extends State<RegisterScreen> {
     super.dispose();
   }
 
-  void _handleRegister() {
+  Future<void> _handleRegister() async {
     // Handle registration logic here
     String nic = _nicController.text.trim();
     String email = _emailController.text.trim();
@@ -43,7 +47,15 @@ class RegisterScreenState extends State<RegisterScreen> {
     }
     
     print('Registration attempt: NIC: $nic, Email: $email');
-    // Add your registration logic here
+    try{
+      final res = await authService.register(nic, email, password);
+
+      if (res['statusCode'] == 201){
+        context.go(AppRoutes.login);
+      }
+    }catch (e){
+      print(e.toString());
+    }
   }
 
   void _handleBackToLogin() {
