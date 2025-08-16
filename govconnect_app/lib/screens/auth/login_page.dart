@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:govconnect_app/config/routes.dart';
+import 'package:govconnect_app/services/auth_service.dart';
+import 'package:govconnect_app/utils/session_manager.dart';
 import 'package:govconnect_app/widgets/custom_button.dart';
 import 'package:govconnect_app/widgets/custom_input_field.dart';
 import 'package:govconnect_app/widgets/custom_text_button.dart';
+
+import '../../models/auth_response.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,6 +19,9 @@ class LoginScreen extends StatefulWidget {
 class LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  final authService = AuthService();
+  final sessionManager = SessionManager();
   
   @override
   void dispose() {
@@ -23,14 +30,27 @@ class LoginScreenState extends State<LoginScreen> {
     super.dispose();
   }
 
-  void _handleLogin() {
-    // Handle login logic here
+  Future<void> _handleLogin() async {
     String email = _emailController.text.trim();
     String password = _passwordController.text.trim();
-    
-    print('Login attempt: $email');
-    // Add your authentication logic here
-    context.go(AppRoutes.dashboard);
+
+    try{
+      final res = await authService.login(email, password);
+      final auth = AuthResponse.fromJson(res);
+
+      final user = auth.user;
+      if (auth.statusCode == 200){
+        await sessionManager.saveSession(auth);
+
+        if (user.role.contains("ROLE_ADMIN")) {
+          context.go(AppRoutes.profile);
+        } else {
+          context.go(AppRoutes.dashboard);
+        }
+      }
+    }catch (e){
+      print(e.toString());
+    }
   }
 
   void _handleForgotPassword() {
