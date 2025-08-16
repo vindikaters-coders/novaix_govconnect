@@ -1,12 +1,9 @@
-package com.novaix.govconnect_server.exeption;
+package com.novaix.govconnect_server.exception;
 
-import com.novaix.govconnect_server.exeption.custom.AlreadyExistsException;
-import com.novaix.govconnect_server.exeption.custom.InternalServerErrorException;
-import com.novaix.govconnect_server.exeption.custom.InvalidInputException;
-import com.novaix.govconnect_server.exeption.custom.UnauthorizedException;
-import com.novaix.govconnect_server.response.ApiResponse;
-import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
+import java.time.format.DateTimeParseException;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -14,9 +11,16 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import java.time.format.DateTimeParseException;
-import java.util.HashMap;
-import java.util.Map;
+import com.novaix.govconnect_server.exception.custom.AlreadyExistsException;
+import com.novaix.govconnect_server.exception.custom.InternalServerErrorException;
+import com.novaix.govconnect_server.exception.custom.InvalidInputException;
+import com.novaix.govconnect_server.exception.custom.InvalidOtpException;
+import com.novaix.govconnect_server.exception.custom.OtpExpiredException;
+import com.novaix.govconnect_server.exception.custom.UnauthorizedException;
+import com.novaix.govconnect_server.response.ApiResponse;
+
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 
 @ControllerAdvice
 @SuppressWarnings("unused")
@@ -75,5 +79,21 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse> handleExpiredJwtException(ExpiredJwtException ex) {
         ApiResponse error = new ApiResponse("Token Expired", "Your authentication token has expired");
         return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(error);
+    }
+
+    @ExceptionHandler(InvalidOtpException.class)
+    public ResponseEntity<ApiResponse> handleInvalidOtp(InvalidOtpException ex) {
+        ApiResponse response = new ApiResponse();
+        response.setMessage(ex.getMessage());
+        response.setData(null);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
+    }
+
+    @ExceptionHandler(OtpExpiredException.class)
+    public ResponseEntity<ApiResponse> handleOtpExpired(OtpExpiredException ex) {
+        ApiResponse response = new ApiResponse();
+        response.setMessage(ex.getMessage());
+        response.setData(null);
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }
