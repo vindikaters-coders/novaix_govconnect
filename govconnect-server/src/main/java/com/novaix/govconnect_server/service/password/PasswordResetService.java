@@ -20,7 +20,7 @@ import com.novaix.govconnect_server.request.ForgotPasswordRequest;
 import com.novaix.govconnect_server.request.ResetPasswordRequest;
 import com.novaix.govconnect_server.response.ForgotPasswordResponse;
 import com.novaix.govconnect_server.response.ResetPasswordResponse;
-import com.novaix.govconnect_server.service.email.EmailService;
+import com.novaix.govconnect_server.service.common.EmailService;
 
 import lombok.RequiredArgsConstructor;
 
