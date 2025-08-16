@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(request -> request
                         .requestMatchers("/api/auth/login/**","/api/auth/register/user/**","/api/auth/forgot-password/**","/api/auth/reset-password/**").permitAll()
+                        .requestMatchers("/api/users/**").authenticated()
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider())
